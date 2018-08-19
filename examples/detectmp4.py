@@ -40,23 +40,31 @@ print dn.__dict__
 # Darknet
 DARKNET_DIR="/mnt/c/Users/sakak/workspace/darknet/"
 DARKNET_CFG,DARKNET_WEIGHTS,DARKNET_DATA= DARKNET_DIR+"cfg/yolov3.cfg",DARKNET_DIR+"yolov3.weights",DARKNET_DIR+"cfg/coco.data"
+VIDEO_NAME=DARKNET_DIR+"meisterTrim.mp4"
 
 net = dn.load_net(DARKNET_CFG,DARKNET_WEIGHTS,0)
 meta = dn.load_meta(DARKNET_DATA)
 
-VIDEO_NAME="some video name"
+count=0
 cap=cv2.VideoCapture(VIDEO_NAME)
+if not cap.isOpened():
+    print "capture open failed"
+    exit()
 while cap.isOpened():
+    count+=1
+    if not count % 60 : continue
     ret,frame=cap.read()
+    print "count:",count
     if ret:
-#        video.append(frame)
-        cv2.imwrite(VIDEO_NAME+'/frame'+count+'.mp4')
-        im=array_to_image(frame)
-        dn.rgbgr_image(im)
-        r = detect2(net, meta, im)
+        print 'start file writing'
+        FRAME_NAME='{}/data/result/frame{}.jpg'.format(DARKNET_DIR,count)
+        print count,FRAME_NAME,type(FRAME_NAME)
+        cv2.imwrite(FRAME_NAME,frame)
+        print "finish writing"
+        print'start detection'
+        r = dn.detect(net, meta, FRAME_NAME)
         print r
     else:
         break
-    count+=1
 cap.release()
 
