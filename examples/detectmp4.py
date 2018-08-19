@@ -40,12 +40,18 @@ print dn.__dict__
 # Darknet
 DARKNET_DIR="/mnt/c/Users/sakak/workspace/darknet/"
 DARKNET_CFG,DARKNET_WEIGHTS,DARKNET_DATA= DARKNET_DIR+"cfg/yolov3.cfg",DARKNET_DIR+"yolov3.weights",DARKNET_DIR+"cfg/coco.data"
-VIDEO_NAME=DARKNET_DIR+"meisterTrim.mp4"
+VIDEO_NAME=DARKNET_DIR+"xxxxx.mp4"
+if not os.path.exists(VIDEO_NAME) : 
+    print 'mp4 does not found'
+    print 'you should specify VIDEO_NAME'
+    exit()
+os.makedirs(DARKNET_DIR+'data',exist_ok=True)
 
 net = dn.load_net(DARKNET_CFG,DARKNET_WEIGHTS,0)
 meta = dn.load_meta(DARKNET_DATA)
 
 count=0
+# if you want to use usb cam , replace VIDEO_NAME to device device number
 cap=cv2.VideoCapture(VIDEO_NAME)
 if not cap.isOpened():
     print "capture open failed"
