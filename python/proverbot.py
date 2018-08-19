@@ -1,5 +1,7 @@
 from darknet import *
 
+DARKNET_DIR="/mnt/c/Users/sakak/workspace/darknet/"
+
 def predict_tactic(net, s):
     prob = 0
     d = c_array(c_float, [0.0]*256)
@@ -32,6 +34,17 @@ def predict_tactics(net, s, n):
     tacs = sorted(tacs, key=lambda x: -x[1])
     return tacs
 
-net = load_net("cfg/coq.test.cfg", "/home/pjreddie/backup/coq.backup", 0)
-t = predict_tactics(net, "+++++\n", 10)
-print t
+#./darknet detect cfg/yolov3.cfg yolov3.weights data/gyoza.jpg
+
+DARKNET_CFG,DARKNET_WEIGHTS=DARKNET_DIR+"cfg/yolov3.cfg", DARKNET_DIR+"yolov3.weights"
+print 'cfg',DARKNET_CFG, 'weights',DARKNET_WEIGHTS
+net = load_net(DARKNET_CFG, DARKNET_WEIGHTS, 0)
+print 'load_net finished'
+#t = predict_tactics(net, "+++++\n", 10)
+#print t
+#print 'load_tactics finished'
+meta = load_meta(DARKNET_DIR + "cfg/coco.data")
+print 'finish loading meata'
+r = detect(net, meta, DARKNET_DIR + "data/eagle.jpg")
+print r
+

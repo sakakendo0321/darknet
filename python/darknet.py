@@ -2,6 +2,7 @@ from ctypes import *
 import math
 import random
 
+
 def sample(probs):
     s = sum(probs)
     probs = [a/s for a in probs]
@@ -45,7 +46,10 @@ class METADATA(Structure):
     
 
 #lib = CDLL("/home/pjreddie/documents/darknet/libdarknet.so", RTLD_GLOBAL)
-lib = CDLL("libdarknet.so", RTLD_GLOBAL)
+#lib = CDLL("libdarknet.so", RTLD_GLOBAL)
+#print 'load started'
+lib = CDLL("/mnt/c/Users/sakak/workspace/darknet/libdarknet.so", RTLD_GLOBAL)
+print 'load successed'
 lib.network_width.argtypes = [c_void_p]
 lib.network_width.restype = c_int
 lib.network_height.argtypes = [c_void_p]
@@ -114,6 +118,10 @@ predict_image = lib.network_predict_image
 predict_image.argtypes = [c_void_p, IMAGE]
 predict_image.restype = POINTER(c_float)
 
+#make_boxes = lib.make_boxes
+
+print "setting finished"
+
 def classify(net, meta, im):
     out = predict_image(net, im)
     res = []
@@ -148,9 +156,11 @@ if __name__ == "__main__":
     #meta = load_meta("cfg/imagenet1k.data")
     #r = classify(net, meta, im)
     #print r[:10]
-    net = load_net("cfg/tiny-yolo.cfg", "tiny-yolo.weights", 0)
-    meta = load_meta("cfg/coco.data")
-    r = detect(net, meta, "data/dog.jpg")
+#    net = load_net(DARKNET_DIR+ "cfg/tiny-yolo.cfg", DARKNET_DIR+"tiny-yolo.weights", 0)
+    net = load_net(DARKNET_DIR+ "cfg/tiny.cfg", DARKNET_DIR+"yolov3.weights", 0)
+    meta = load_meta(DARKNET_DIR + "cfg/coco.data")
+    r = detect(net, meta, DARKNET_DIR + "data/eagle.jpg")
     print r
     
 
+print 'main finished'

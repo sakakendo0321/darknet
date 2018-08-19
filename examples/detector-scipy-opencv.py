@@ -34,12 +34,21 @@ import sys, os
 sys.path.append(os.path.join(os.getcwd(),'python/'))
 
 import darknet as dn
+print dn.__dict__
 
 # Darknet
+DARKNET_DIR="/mnt/c/Users/sakak/workspace/darknet/"
+DARKNET_CFG,DARKNET_WEIGHTS,DARKNET_DATA= DARKNET_DIR+"cfg/yolov3.cfg",DARKNET_DIR+"yolov3.weights",DARKNET_DIR+"cfg/coco.data"
+
+net = dn.load_net(DARKNET_CFG,DARKNET_WEIGHTS,0)
+meta = dn.load_meta(DARKNET_DATA)
+r = dn.detect(net, meta, DARKNET_DIR+"data/dog.jpg")
+print r
+'''
 net = dn.load_net("cfg/tiny-yolo.cfg", "tiny-yolo.weights", 0)
 meta = dn.load_meta("cfg/coco.data")
 r = dn.detect(net, meta, "data/dog.jpg")
-print r
+'''
 
 # scipy
 arr= imread('data/dog.jpg')
