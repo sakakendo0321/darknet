@@ -1,7 +1,7 @@
 tunnels:
-    ssh:
+    ssh-server:
         proto: tcp
         addr: 22
-    http:
+    flask-server:
         proto: http
         addr: 3000
