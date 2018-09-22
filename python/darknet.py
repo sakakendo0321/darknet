@@ -48,7 +48,7 @@ class METADATA(Structure):
 #lib = CDLL("/home/pjreddie/documents/darknet/libdarknet.so", RTLD_GLOBAL)
 #lib = CDLL("libdarknet.so", RTLD_GLOBAL)
 #print 'load started'
-lib = CDLL("/mnt/c/Users/sakak/workspace/darknet/libdarknet.so", RTLD_GLOBAL)
+lib = CDLL("/content/darknet//libdarknet.so", RTLD_GLOBAL)
 print 'load successed'
 lib.network_width.argtypes = [c_void_p]
 lib.network_width.restype = c_int
