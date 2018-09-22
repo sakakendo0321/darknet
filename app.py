@@ -43,6 +43,6 @@ def detect():
         """
 
 if __name__ == '__main__':
-    cfg,weights,data="../cfg/yolov3.cfg", "conf/yolov3.weights","../cfg/coco.data"
+    cfg,weights,data="cfg/yolov3.cfg", "python/conf/yolov3.weights","cfg/coco.data"
     net = Detector(bytes(cfg,encoding="utf-8"),bytes(weights,encoding="utf-8"),0,bytes(data,encoding="utf-8"))
     app.run(host="0.0.0.0",port=3000)
