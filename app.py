@@ -5,9 +5,15 @@ from pydarknet import Detector,Image
 from icecream import ic
 
 import pdb
-from flask import Flask,flash,redirect
+from flask import Flask,flash,redirect,request,url_for
+from werkzeug.utils import secure_filename
 
 app=Flask(__name__)
+app.config['UPLOAD_FOLDER']="./uploads"
+
+def allowed_file(filename):
+    ALLOWED_EXTENSIONS=set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+    return '.' in filename and filename.rsplit('.',1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route("/")
 def index():
@@ -30,7 +36,7 @@ def detect():
             return redirect(request.url)
         if file and allowed_file(file.filename):
             filename=secure_filename(file.filename)
-            file.save(os,path.join(app.config["UPLOAD_FOLDER"],filename))
+            file.save(os.path.join(app.config["UPLOAD_FOLDER"],filename))
             return redirect(url_for('uploaded_file',filename=filename))
     elif request.method=="GET":
         return """
@@ -41,6 +47,12 @@ def detect():
             <input type=submit value=upload>
         </form>
         """
+@app.route("/uploaded_file")
+def uploaded_file():
+    return """
+    <!doctype html>
+    <h1>uploaded file</h1>
+    """
 
 if __name__ == '__main__':
     cfg,weights,data="cfg/yolov3.cfg", "python/conf/yolov3.weights","cfg/coco.data"
